@@ -7,6 +7,7 @@
   -- book PTO around a date (https://developers.google.com/calendar/api/guides/overview)? 
   -- scenario should use multiple tools
   -- expense management
+  -- check in on the health of the team
 [ ] demo the reasons why:
   -- Orchestrate interactions across distributed data stores and tools
   -- Hold state, potentially over long periods of time
