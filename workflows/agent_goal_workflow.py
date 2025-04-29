@@ -319,8 +319,9 @@ class AgentGoalWorkflow:
             ToolActivities.get_wf_env_vars, 
             env_lookup_input,
             start_to_close_timeout=LLM_ACTIVITY_START_TO_CLOSE_TIMEOUT,
+            schedule_to_close_timeout=LLM_ACTIVITY_SCHEDULE_TO_CLOSE_TIMEOUT,
             retry_policy=RetryPolicy(
-                initial_interval=timedelta(seconds=5), backoff_coefficient=1
+                initial_interval=timedelta(seconds=1), backoff_coefficient=1
             ),
         )
         self.show_tool_args_confirmation = env_output.show_confirm

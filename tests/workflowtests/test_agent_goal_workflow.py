@@ -1,3 +1,4 @@
+import pytest
 from temporalio.client import Client, WorkflowExecutionStatus
 from temporalio.worker import Worker
 import concurrent.futures
@@ -19,7 +20,7 @@ def my_context():
     print("Cleanup")
 
 
-
+@pytest.mark.asyncio
 async def test_flight_booking(client: Client):
 
     #load_dotenv("test_flights_single.env")
@@ -39,7 +40,7 @@ async def test_flight_booking(client: Client):
                 client, 
                 task_queue=task_queue_name,
                 workflows=[AgentGoalWorkflow],
-                activities=[ToolActivities.agent_validatePrompt, ToolActivities.agent_toolPlanner, ToolActivities.get_wf_env_vars, dynamic_tool_activity],
+                activities=[ToolActivities.agent_validatePrompt, ToolActivities.print_something, ToolActivities.agent_toolPlanner, ToolActivities.get_wf_env_vars, dynamic_tool_activity],
                 activity_executor=activity_executor,
             )
 
