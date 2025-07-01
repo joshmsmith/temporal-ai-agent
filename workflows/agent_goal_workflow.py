@@ -281,6 +281,28 @@ class AgentGoalWorkflow:
         """Query handler to retrieve the latest tool data response if available."""
         return self.tool_data
 
+    @workflow.signal
+    async def add_external_message(self, message: Union[str, Dict[str, Any]]) -> None:
+        """Add a message to the conversation history.
+        Args:
+            message: either a string or a dictionary containing the message content
+               if a dictionary, it should have keys 'actor' and 'response'
+               actor can be either e.g., "user", "agent"
+        """
+        if isinstance(message, dict):
+            response = message.get("contents", "")
+            actor = message.get("actor", "unknown")
+            workflow.logger.debug(f"Adding {actor} message: {response_str[:100]}...")
+        else:
+            actor = "agent"  # Default actor if not specified
+            response = message
+            workflow.logger.debug(f"Adding {actor} message: {response[:100]}...")
+
+        self.conversation_history["messages"].append(
+            {"actor": actor, "response": {"response": response, "next": "question"}}
+        )
+        workflow.logger.debug(f"Message added to conversation history: {self.conversation_history['messages'][-1]}")
+
     def add_message(self, actor: str, response: Union[str, Dict[str, Any]]) -> None:
         """Add a message to the conversation history.
 
